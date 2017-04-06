@@ -1,0 +1,63 @@
+spring:
+  application:
+    name: wms-inventory
+  main:
+    banner-mode: "OFF"
+  cloud:
+    config:
+      label: ${owms.tenant:master}
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: openwms-config
+#      username: ${owms.config.username:user}
+#      password: ${owms.config.password:sa}
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+  jpa:
+    generate-ddl: true
+
+owms:
+  eureka:
+    # Override this in cloud environment!
+    url: http://user:sa@localhost:8761
+
+server:
+  port: ${PORT:8090}
+
+security:
+  user:
+    # Override this in cloud environment!
+    password: sa
+
+eureka:
+  client:
+    serviceUrl:
+      # need to be overridden in the cloud environment props!
+      defaultZone: ${owms.eureka.url}/eureka
+  instance:
+    secure-port-enabled: false
+    non-secure-port-enabled: true
+    metadata-map:
+      # need to be overridden in the cloud environment props!
+      username: user
+      password: ${security.user.password}
+      protocol: http
+
+---
+spring:
+  profiles: CLOUD
+
+eureka:
+  instance:
+    hostname: openwms-wms-inventory.herokuapp.com
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    statusPageUrl: https://${eureka.instance.hostName}/info
+    healthCheckUrl: https://${eureka.instance.hostName}/health
+    homePageUrl: https://${eureka.instance.hostName}/
+    metadata-map:
+      protocol: https
