@@ -30,8 +30,8 @@
 		<version>0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>org.openwms.wms.inventory</artifactId>
-	<name>OpenWMS.org TMS: Transportation Services</name>
-	<url>https://www.interface21.io/docs/tms/transportation/index.html</url>
+	<name>OpenWMS.org WMS: Inventory</name>
+	<url>https://www.interface21.io/docs/wms/inventory/index.html</url>
 
 	<properties>
         <core.version>1.1.0-SNAPSHOT</core.version>
@@ -163,6 +163,21 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+			<exclusions>
+				<exclusion>
+					<!-- bites with spring-core -->
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
         <dependency>
             <groupId>org.openwms</groupId>
@@ -171,4 +186,18 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+	<repositories>
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Snapshot Repository</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
 </project>
