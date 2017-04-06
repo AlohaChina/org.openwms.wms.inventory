@@ -21,58 +21,26 @@
  */
 package org.openwms.wms;
 
-import javax.persistence.PersistenceException;
-
 import org.hibernate.TransientPropertyValueException;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.openwms.common.Location;
-import org.openwms.common.LocationPK;
-import org.openwms.common.TransportUnit;
-import org.openwms.common.TransportUnitType;
 import org.openwms.core.test.AbstractJpaSpringContextTests;
 import org.openwms.wms.inventory.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.PersistenceException;
+
 /**
  * A LoadUnitTest.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version $Revision: $
- * @since 0.1
  */
 public class LoadUnitTest extends AbstractJpaSpringContextTests {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadUnitTest.class);
-    private TransportUnitType tut;
-    private TransportUnit tu;
-    private Location loc1;
-    private Location loc2;
+    private static final String BARCODE1 = "0004711";
     private Product product;
-
-    /**
-     * Setup some test data.
-     */
-    @Before
-    public void onBefore() {
-        tut = new TransportUnitType("TUT");
-        loc1 = new Location(new LocationPK("AREA", "ASL", "X", "Y", "Z"));
-        loc2 = new Location(new LocationPK("ARE2", "ASL2", "X2", "Y2", "Z2"));
-        product = new Product("tttt");
-        entityManager.persist(product);
-
-        entityManager.persist(tut);
-        entityManager.persist(loc1);
-        entityManager.persist(loc2);
-
-        tu = new TransportUnit("TEST");
-        tu.setTransportUnitType(tut);
-        tu.setActualLocation(loc1);
-        entityManager.persist(tu);
-        entityManager.flush();
-    }
 
     /**
      * Positive test to create a LoadUnit with an existing TU, existing Product
@@ -80,12 +48,12 @@ public class LoadUnitTest extends AbstractJpaSpringContextTests {
      */
     @Test
     public final void testLoadUnitOk() {
-        LoadUnit loadUnit = new LoadUnit(tu, "LEFT", product);
+        LoadUnit loadUnit = new LoadUnit(BARCODE1, "LEFT", product);
         entityManager.persist(loadUnit);
         entityManager.flush();
         entityManager.clear();
         LoadUnit lu = entityManager.find(LoadUnit.class, loadUnit.getPk());
-        Assert.assertEquals(tu, lu.getTransportUnit());
+        Assert.assertEquals(BARCODE1, lu.getTransportUnitId());
         Assert.assertEquals("LEFT", lu.getPhysicalPosition());
         Assert.assertEquals(product, lu.getProduct());
         Assert.assertFalse(lu.isNew());
@@ -98,7 +66,7 @@ public class LoadUnitTest extends AbstractJpaSpringContextTests {
      */
     @Test
     public final void testLoadUnitQtyZero() {
-        LoadUnit loadUnit = new LoadUnit(tu, "LEFT", product);
+        LoadUnit loadUnit = new LoadUnit(BARCODE1, "LEFT", product);
         entityManager.persist(loadUnit);
     }
 
@@ -109,7 +77,7 @@ public class LoadUnitTest extends AbstractJpaSpringContextTests {
     @Test
     public final void testLoadUnitTransientTU() {
         try {
-            LoadUnit loadUnit = new LoadUnit(new TransportUnit("TEST"), "LEFT", product);
+            LoadUnit loadUnit = new LoadUnit(BARCODE1, "LEFT", product);
             entityManager.persist(loadUnit);
         } catch (Exception e) {
             if (e instanceof PersistenceException) {
@@ -129,7 +97,7 @@ public class LoadUnitTest extends AbstractJpaSpringContextTests {
     @Test
     public final void testLoadUnitTransientProduct() {
         try {
-            LoadUnit loadUnit = new LoadUnit(tu, "LEFT", new Product("TRANSIENT"));
+            LoadUnit loadUnit = new LoadUnit(BARCODE1, "LEFT", new Product("TRANSIENT"));
             entityManager.persist(loadUnit);
         } catch (Exception e) {
             if (e instanceof PersistenceException) {
@@ -142,17 +110,12 @@ public class LoadUnitTest extends AbstractJpaSpringContextTests {
         }
     }
 
-    /**
-     * Test method for
-     * {@link org.openwms.wms.LoadUnit#LoadUnit(java.lang.String, org.openwms.common.values.Weight)}
-     * .
-     */
     @Test(expected = Exception.class)
     public final void testDuplicatedLoadUnit() {
-        LoadUnit loadUnit = new LoadUnit(tu, "LEFT", product);
+        LoadUnit loadUnit = new LoadUnit(BARCODE1, "LEFT", product);
         entityManager.persist(loadUnit);
         entityManager.flush();
-        LoadUnit loadUnit2 = new LoadUnit(tu, "LEFT", product);
+        LoadUnit loadUnit2 = new LoadUnit(BARCODE1, "LEFT", product);
         entityManager.persist(loadUnit2);
     }
 }

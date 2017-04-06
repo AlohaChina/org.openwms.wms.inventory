@@ -51,7 +51,7 @@ public class LoadUnit extends BaseEntity implements Serializable {
 
     /** The barcode of the {@code TransportUnit} where this {@link LoadUnit} belongs to. */
     @Column(name = "C_TRANSPORT_UNIT")
-    private String transportUnit;
+    private String transportUnitId;
 
     /** Where this {@link LoadUnit} is located on the {@code TransportUnit}. */
     @Column(name = "C_PHYSICAL_POS")
@@ -77,23 +77,23 @@ public class LoadUnit extends BaseEntity implements Serializable {
     /**
      * Create a new LoadUnit.
      *
-     * @param tu The {@code TransportUnit} where this LoadUnit stands on.
+     * @param transportUnitId The {@code TransportUnit} where this LoadUnit stands on.
      * @param physicalPosition The physical position within the {@code TransportUnit} where this LoadUnit stands on
      */
-    public LoadUnit(String tu, String physicalPosition) {
-        this.transportUnit = tu;
+    public LoadUnit(String transportUnitId, String physicalPosition) {
+        this.transportUnitId = transportUnitId;
         this.physicalPosition = physicalPosition;
     }
 
     /**
      * Create a new LoadUnit.
      *
-     * @param tu The {@code TransportUnit} where this LoadUnit stands on.
+     * @param transportUnitId The {@code TransportUnit} where this LoadUnit stands on.
      * @param physicalPosition The physical position within the {@code TransportUnit} where this LoadUnit stands on
      * @param product The {@link Product} to set on this LoadUnit
      */
-    public LoadUnit(String tu, String physicalPosition, Product product) {
-        this(tu, physicalPosition);
+    public LoadUnit(String transportUnitId, String physicalPosition, Product product) {
+        this(transportUnitId, physicalPosition);
         this.product = product;
     }
 
@@ -103,7 +103,7 @@ public class LoadUnit extends BaseEntity implements Serializable {
      */
     @PrePersist
     protected void prePersist() {
-        if (null == this.transportUnit) {
+        if (null == this.transportUnitId) {
             throw new DomainModelRuntimeException("Not allowed to create a new LoadUnit without a TransportUnit");
         }
     }
@@ -113,8 +113,8 @@ public class LoadUnit extends BaseEntity implements Serializable {
      *
      * @return the transportUnit.
      */
-    public String getTransportUnit() {
-        return transportUnit;
+    public String getTransportUnitId() {
+        return transportUnitId;
     }
 
     /**
@@ -207,6 +207,6 @@ public class LoadUnit extends BaseEntity implements Serializable {
      */
     @Override
     public String toString() {
-        return transportUnit + " / " + physicalPosition;
+        return transportUnitId + " / " + physicalPosition;
     }
 }

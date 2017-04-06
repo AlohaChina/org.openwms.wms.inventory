@@ -130,7 +130,7 @@ public class PackagingUnit extends BaseEntity implements Serializable {
     private void assignInitialValues(LoadUnit lu) {
         this.loadUnit = lu;
         this.loadUnit.addPackagingUnits(this);
-        this.transportUnitId = lu.getTransportUnit();
+        this.transportUnitId = lu.getTransportUnitId();
     }
 
     private void verify() {
@@ -146,7 +146,7 @@ public class PackagingUnit extends BaseEntity implements Serializable {
      */
     @PostLoad
     void postLoad() {
-        this.transportUnitId = this.loadUnit.getTransportUnit();
+        this.transportUnitId = this.loadUnit.getTransportUnitId();
     }
 
     /**
