@@ -33,6 +33,6 @@ import java.util.List;
  */
 public interface LoadUnitRepository extends JpaRepository<LoadUnit, Long> {
 
-    @Query(value = "select lu from LoadUnit lu where lu.transportUnit = :barcode order by lu.physicalPosition")
+    @Query(value = "select lu from LoadUnit lu where lu.transportUnitId = :barcode order by lu.physicalPosition")
     List<LoadUnit> findByTransportUnit(String barcode);
 }

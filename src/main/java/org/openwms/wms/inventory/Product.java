@@ -22,7 +22,6 @@
 package org.openwms.wms.inventory;
 
 import org.ameba.integration.jpa.BaseEntity;
-import org.openwms.core.values.CoreTypeDefinitions;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,7 +44,7 @@ public class Product extends BaseEntity implements Comparable<Product>, Serializ
     private String sku;
 
     /** Textual descriptive text. */
-    @Column(name = "C_DESCRIPTION", length = CoreTypeDefinitions.DESCRIPTION_LENGTH)
+    @Column(name = "C_DESCRIPTION")
     private String description;
 
     /** Where this product has to be placed in stock. */

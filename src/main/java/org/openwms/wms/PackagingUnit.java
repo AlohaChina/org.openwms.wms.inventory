@@ -22,9 +22,6 @@
 package org.openwms.wms;
 
 import org.ameba.integration.jpa.BaseEntity;
-import org.openwms.core.exception.DomainModelRuntimeException;
-import org.openwms.core.values.CoreTypeDefinitions;
-import org.openwms.core.values.UnitType;
 import org.openwms.wms.inventory.Product;
 import org.springframework.util.Assert;
 
@@ -52,52 +49,66 @@ import java.util.Date;
 @Table(name = "WMS_PACKAGING_UNIT")
 public class PackagingUnit extends BaseEntity implements Serializable {
 
-    /** Carrying {@code TransportUnit}. */
+    /**
+     * Carrying {@code TransportUnit}.
+     */
     // @ManyToOne
     @Column(name = "C_TRANSPORT_UNIT")
     private String transportUnitId;
 
-    /** Carrying {@link LoadUnit}. */
+    /**
+     * Carrying {@link LoadUnit}.
+     */
     @ManyToOne
     @JoinColumn(name = "C_LOAD_UNIT")
     private LoadUnit loadUnit;
 
-    /** Unique identifier within the {@link LoadUnit}. May be {@literal null} */
+    /**
+     * Unique identifier within the {@link LoadUnit}. May be {@literal null}
+     */
     @Column(name = "C_LABEL", unique = true, nullable = true)
     private String label;
 
-    /** The packaged {@link Product}. */
+    /**
+     * The packaged {@link Product}.
+     */
     @ManyToOne
     @JoinColumn(name = "C_PRODUCT", referencedColumnName = "C_SKU")
     private Product product;
 
-    /** State of this PackagingUnit. */
+    /**
+     * State of this PackagingUnit.
+     */
     @Column(name = "C_AV_STATE")
     @Enumerated(EnumType.STRING)
     private AvailabilityState availabilityState;
 
-    /** Current quantity. */
-    @org.hibernate.annotations.Type(type = "org.openwms.persistence.ext.hibernate.UnitUserType")
-    @org.hibernate.annotations.Columns(columns = {@Column(name = "C_QUANTITY_TYPE"),
-            @Column(name = "C_QUANTITY", length = CoreTypeDefinitions.QUANTITY_LENGTH)})
-    private UnitType quantity;
+    /**
+     * Current quantity.
+     */
+    // TODO [openwms]: 06/04/17 change this here to a type class
+    private long quantity;
 
-    /** Used to control the putaway strategy. */
+    /**
+     * Used to control the putaway strategy.
+     */
     @Column(name = "C_FIFO_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fifoDate;
 
-    /** Dear JPA... */
+    /**
+     * Dear JPA...
+     */
     protected PackagingUnit() {
     }
 
     /**
      * Create a new PackagingUnit.
      *
-     * @param lu The {@link LoadUnit} where this PackingUnit is carried in
+     * @param lu  The {@link LoadUnit} where this PackingUnit is carried in
      * @param qty The quantity
      */
-    public PackagingUnit(LoadUnit lu, UnitType qty) {
+    public PackagingUnit(LoadUnit lu, long qty) {
         Assert.notNull(lu);
         Assert.notNull(qty);
         assignInitialValues(lu);
@@ -108,11 +119,11 @@ public class PackagingUnit extends BaseEntity implements Serializable {
     /**
      * Create a new PackagingUnit.
      *
-     * @param lu The {@link LoadUnit} where this PackingUnit is carried in
-     * @param qty The quantity
+     * @param lu      The {@link LoadUnit} where this PackingUnit is carried in
+     * @param qty     The quantity
      * @param product A Product to assign
      */
-    public PackagingUnit(LoadUnit lu, UnitType qty, Product product) {
+    public PackagingUnit(LoadUnit lu, long qty, Product product) {
         Assert.notNull(lu);
         Assert.notNull(qty);
         Assert.notNull(product);
@@ -135,7 +146,7 @@ public class PackagingUnit extends BaseEntity implements Serializable {
 
     private void verify() {
         if (!this.product.equals(this.loadUnit.getProduct())) {
-            throw new DomainModelRuntimeException("It is not allowed to have different Products on the LoadUnit ["
+            throw new RuntimeException("It is not allowed to have different Products on the LoadUnit ["
                     + this.loadUnit.getProduct() + "] and the PackagingUnit [" + this.getProduct() + "]");
         }
         verifyQuantity(this.quantity);
@@ -226,7 +237,7 @@ public class PackagingUnit extends BaseEntity implements Serializable {
      *
      * @return the quantity.
      */
-    public UnitType getQuantity() {
+    public long getQuantity() {
         return quantity;
     }
 
@@ -235,7 +246,7 @@ public class PackagingUnit extends BaseEntity implements Serializable {
      *
      * @param qty The quantity to set.
      */
-    protected void setQuantity(UnitType qty) {
+    protected void setQuantity(long qty) {
         verifyQuantity(qty);
         this.quantity = qty;
     }
@@ -243,8 +254,8 @@ public class PackagingUnit extends BaseEntity implements Serializable {
     /**
      * Throw an exception when the quantity {@code qty} is {@literal null} or of negative value.
      */
-    private void verifyQuantity(UnitType qty) {
-        if (qty == null || qty.getMeasurable().isNegative()) {
+    private void verifyQuantity(long qty) {
+        if (qty < 0) {
             throw new IllegalArgumentException("Not allowed to set the quantity of a PackagingUnit less than 0");
         }
     }

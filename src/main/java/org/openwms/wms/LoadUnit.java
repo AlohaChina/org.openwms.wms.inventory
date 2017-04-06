@@ -22,7 +22,6 @@
 package org.openwms.wms;
 
 import org.ameba.integration.jpa.BaseEntity;
-import org.openwms.core.exception.DomainModelRuntimeException;
 import org.openwms.wms.inventory.Product;
 
 import javax.persistence.Column;
@@ -104,7 +103,7 @@ public class LoadUnit extends BaseEntity implements Serializable {
     @PrePersist
     protected void prePersist() {
         if (null == this.transportUnitId) {
-            throw new DomainModelRuntimeException("Not allowed to create a new LoadUnit without a TransportUnit");
+            throw new RuntimeException("Not allowed to create a new LoadUnit without a TransportUnit");
         }
     }
 
@@ -160,7 +159,7 @@ public class LoadUnit extends BaseEntity implements Serializable {
      */
     public void setProduct(Product product) {
         if (this.product != null) {
-            throw new DomainModelRuntimeException("Not allowed to change the Product of an LoadUnit");
+            throw new RuntimeException("Not allowed to change the Product of an LoadUnit");
         }
         this.product = product;
     }

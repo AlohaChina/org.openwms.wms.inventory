@@ -24,8 +24,6 @@ package org.openwms.wms;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openwms.common.units.Piece;
-import org.openwms.common.units.PieceUnit;
 import org.openwms.core.test.AbstractJpaSpringContextTests;
 import org.openwms.wms.inventory.Product;
 import org.slf4j.Logger;
@@ -64,9 +62,9 @@ public class PackagingUnitTest extends AbstractJpaSpringContextTests {
      */
     @Test
     public final void testPackagingUnit() {
-        PackagingUnit pu = new PackagingUnit(new LoadUnit(BARCODE1, "123456789"), new Piece(20));
+        PackagingUnit pu = new PackagingUnit(new LoadUnit(BARCODE1, "123456789"), 20);
         LoadUnit lu1 = new LoadUnit(BARCODE1, "TOP_RIGHT");
-        PackagingUnit pu1 = new PackagingUnit(lu1, new Piece(20), new Product("SKU9999999"));
+        PackagingUnit pu1 = new PackagingUnit(lu1, 20, new Product("SKU9999999"));
         LOGGER.debug("Product set on the PackagingUnit: " + pu1.getProduct());
         LOGGER.debug("Product set on the LoadUnit: " + lu1.getProduct());
         Assert.assertEquals(lu1.getProduct(), pu1.getProduct());
@@ -79,13 +77,12 @@ public class PackagingUnitTest extends AbstractJpaSpringContextTests {
      */
     @Test
     public final void testPersistPackagingUnit() {
-        PackagingUnit pu = new PackagingUnit(lu1, new Piece(48));
+        PackagingUnit pu = new PackagingUnit(lu1, 48);
         pu.setProduct(lu1.getProduct());
         entityManager.persist(pu);
         entityManager.flush();
         entityManager.clear();
         PackagingUnit pu2 = entityManager.find(PackagingUnit.class, pu.getPk());
-        Assert.assertTrue(pu2.getQuantity().equals(pu.getQuantity()));
-        Assert.assertTrue(pu2.getQuantity().equals(new Piece(4, PieceUnit.DOZ)));
+        Assert.assertTrue(pu2.getQuantity() == 48);
     }
 }
