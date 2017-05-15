@@ -24,26 +24,26 @@ package org.openwms.wms.inventory;
 import java.io.Serializable;
 
 /**
- * A AllocationRule.
- * 
+ * An AllocationRule encapsulates the demanded amount of {@link Product} items.
+ *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 public class AllocationRule implements Serializable {
 
-    // TODO [openwms]: 06/04/17 dont use a simple type here
     private long quantity;
     private Product product;
 
     /**
      * Create a new AllocationRule.
      */
-    protected AllocationRule() {}
+    protected AllocationRule() {
+    }
 
     /**
      * Create a new AllocationRule.
-     * 
-     * @param quantity
-     * @param product
+     *
+     * @param quantity The amount of Product items
+     * @param product  The demanded Product
      */
     public AllocationRule(long quantity, Product product) {
         super();
@@ -53,7 +53,7 @@ public class AllocationRule implements Serializable {
 
     /**
      * Get the quantity.
-     * 
+     *
      * @return the quantity.
      */
     public long getQuantity() {
@@ -62,7 +62,7 @@ public class AllocationRule implements Serializable {
 
     /**
      * Get the product.
-     * 
+     *
      * @return the product.
      */
     public Product getProduct() {

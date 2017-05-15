@@ -22,8 +22,9 @@
 package org.openwms.wms.inventory;
 
 /**
- * A StockZone defines areas in stock used to control where products have to be stored. It is up to the project to assign a particular
- * {@code StockZone} to the physical location or to extend the collection of zones.
+ * A StockZone defines areas within the stock used to manage where {@link Product}s have
+ * to be stored. It is up to the project to assign a particular {@link StockZone} to the
+ * physical location or to extend the collection of zones.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */

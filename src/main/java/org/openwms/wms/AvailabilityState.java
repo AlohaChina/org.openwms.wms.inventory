@@ -23,7 +23,7 @@ package org.openwms.wms;
 
 /**
  * An AvailabilityState.
- * 
+ *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 public enum AvailabilityState {

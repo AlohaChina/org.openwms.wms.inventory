@@ -42,8 +42,6 @@ import java.util.Date;
  * A PackagingUnit is the actual assignment of a {@link Product} and a quantity.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version 0.1
- * @since 0.1
  */
 @Entity
 @Table(name = "WMS_PACKAGING_UNIT")

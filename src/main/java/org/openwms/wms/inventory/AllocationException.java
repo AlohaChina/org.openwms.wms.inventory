@@ -21,33 +21,27 @@
  */
 package org.openwms.wms.inventory;
 
-import org.ameba.exception.ServiceLayerException;
-
 /**
- * A AllocationException.
+ * An AllocationException signals that an {@link Allocation} couldn't be performed.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public class AllocationException extends ServiceLayerException {
+public class AllocationException extends Exception {
+
+    /**
+     * Constructs a new exception with {@code null} as its detail message.
+     * The cause is not initialized, and may subsequently be initialized by a
+     * call to {@link #initCause}.
+     */
+    public AllocationException() {
+    }
 
     /**
      * Create a new AllocationException.
-     * 
-     * @param message
+     *
+     * @param message Message text
      */
     public AllocationException(String message) {
         super(message);
     }
-
-
-    /**
-     * Create a new AllocationException.
-     * 
-     * @param message
-     * @param cause
-     */
-    public AllocationException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
 }

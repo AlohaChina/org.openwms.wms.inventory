@@ -24,17 +24,19 @@ package org.openwms.wms.inventory;
 import org.openwms.wms.PackagingUnit;
 
 /**
- * A Allocation.
- * 
+ * An Allocation strategy is used to find the proper {@link PackagingUnit} of a {@link Product} with the
+ * given required amount.
+ *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 public interface Allocation {
 
     /**
+     * Allocate a {@link PackagingUnit} by following the given {@link AllocationRule}.
      *
-     * @param allocationRule
-     * @return
-     * @throws AllocationException
+     * @param allocationRule Holds the amount of Product items
+     * @return The PackagingUnit if allocatable
+     * @throws AllocationException If not allocatable
      */
     PackagingUnit allocate(AllocationRule allocationRule) throws AllocationException;
 }
