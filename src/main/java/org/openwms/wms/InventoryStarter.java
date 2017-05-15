@@ -23,16 +23,19 @@ package org.openwms.wms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * A InventoryStarter.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-//@EnableEurekaClient
+@EnableDiscoveryClient
 @SpringBootApplication//(scanBasePackageClasses = {InventoryStarter.class})
-//@EnableJpaAuditing
-//@EnableJpaRepositories(basePackageClasses = InventoryStarter.class)
+@EnableJpaAuditing
+@EnableJpaRepositories(basePackageClasses = InventoryStarter.class)
 public class InventoryStarter {
 
     /**
