@@ -28,6 +28,10 @@ aisle, x, y, z. Where area defines the logical area of the Location, like "Palle
 "Hanging Goods", aisle the particular stock aisle (0001, 0002, etc.) and the coordinate in 
 the aisle as x-y-z tupel.
 
+A **TransportUnit** represents the physical container that is used to move items between
+locations in the warehouse. In the context of inventory management the TransportUnit tracks
+at least the information of its actual location.
+
 ## Domain Model
 
 Basically this service deals with Products and LoadUnits. A **Product** is the representation
