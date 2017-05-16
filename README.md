@@ -23,6 +23,10 @@ Under development
 
 ## Anti Corruption Layer (ACL)
 
+Entities of the ACL do not belong and are not owned by the service itself. They can be
+seen as narrowed representations of entities in other domains and store only attributes
+and relationships that are required for the context of inventory management service.
+
 A **Location** in the context of inventory management is identified by a 5-tupel of area,
 aisle, x, y, z. Where area defines the logical area of the Location, like "Pallet" or 
 "Hanging Goods", aisle the particular stock aisle (0001, 0002, etc.) and the coordinate in 
