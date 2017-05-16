@@ -19,53 +19,29 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.wms.inventory;
-
-import java.io.Serializable;
+package org.openwms.wms.inventory.allocation;
 
 /**
- * An AllocationRule encapsulates the demanded amount of {@link Product} items.
+ * An AllocationException signals that an {@link Allocation} couldn't be performed.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public class AllocationRule implements Serializable {
-
-    private long quantity;
-    private Product product;
+public class AllocationException extends Exception {
 
     /**
-     * Create a new AllocationRule.
+     * Constructs a new exception with {@code null} as its detail message.
+     * The cause is not initialized, and may subsequently be initialized by a
+     * call to {@link #initCause}.
      */
-    protected AllocationRule() {
+    public AllocationException() {
     }
 
     /**
-     * Create a new AllocationRule.
+     * Create a new AllocationException.
      *
-     * @param quantity The amount of Product items
-     * @param product  The demanded Product
+     * @param message Message text
      */
-    public AllocationRule(long quantity, Product product) {
-        super();
-        this.quantity = quantity;
-        this.product = product;
-    }
-
-    /**
-     * Get the quantity.
-     *
-     * @return the quantity.
-     */
-    public long getQuantity() {
-        return quantity;
-    }
-
-    /**
-     * Get the product.
-     *
-     * @return the product.
-     */
-    public Product getProduct() {
-        return product;
+    public AllocationException(String message) {
+        super(message);
     }
 }

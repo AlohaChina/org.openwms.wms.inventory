@@ -19,24 +19,55 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.wms.inventory;
+package org.openwms.wms.inventory.allocation;
 
-import org.openwms.wms.PackagingUnit;
+import org.openwms.wms.inventory.Product;
+
+import java.io.Serializable;
 
 /**
- * An Allocation strategy is used to find the proper {@link PackagingUnit} of a {@link Product} with the
- * given required amount.
+ * An AllocationRule encapsulates the demanded amount of {@link Product} items.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public interface Allocation {
+public class AllocationRule implements Serializable {
+
+    private long quantity;
+    private Product product;
 
     /**
-     * Allocate a {@link PackagingUnit} by following the given {@link AllocationRule}.
-     *
-     * @param allocationRule Holds the amount of Product items
-     * @return The PackagingUnit if allocatable
-     * @throws AllocationException If not allocatable
+     * Create a new AllocationRule.
      */
-    PackagingUnit allocate(AllocationRule allocationRule) throws AllocationException;
+    protected AllocationRule() {
+    }
+
+    /**
+     * Create a new AllocationRule.
+     *
+     * @param quantity The amount of Product items
+     * @param product  The demanded Product
+     */
+    public AllocationRule(long quantity, Product product) {
+        super();
+        this.quantity = quantity;
+        this.product = product;
+    }
+
+    /**
+     * Get the quantity.
+     *
+     * @return the quantity.
+     */
+    public long getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * Get the product.
+     *
+     * @return the product.
+     */
+    public Product getProduct() {
+        return product;
+    }
 }

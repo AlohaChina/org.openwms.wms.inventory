@@ -23,6 +23,9 @@ package org.openwms.wms.inventory;
 
 import org.ameba.annotation.TxService;
 import org.openwms.wms.PackagingUnit;
+import org.openwms.wms.inventory.allocation.Allocation;
+import org.openwms.wms.inventory.allocation.AllocationException;
+import org.openwms.wms.inventory.allocation.AllocationRule;
 
 /**
  * A StockAllocationImpl.

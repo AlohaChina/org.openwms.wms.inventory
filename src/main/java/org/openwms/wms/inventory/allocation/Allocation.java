@@ -19,29 +19,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.wms.inventory;
+package org.openwms.wms.inventory.allocation;
+
+import org.openwms.wms.PackagingUnit;
+import org.openwms.wms.inventory.Product;
 
 /**
- * An AllocationException signals that an {@link Allocation} couldn't be performed.
+ * An Allocation strategy is used to find the proper {@link PackagingUnit} of a {@link Product} with the
+ * given required amount.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public class AllocationException extends Exception {
+public interface Allocation {
 
     /**
-     * Constructs a new exception with {@code null} as its detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to {@link #initCause}.
-     */
-    public AllocationException() {
-    }
-
-    /**
-     * Create a new AllocationException.
+     * Allocate a {@link PackagingUnit} by following the given {@link AllocationRule}.
      *
-     * @param message Message text
+     * @param allocationRule Holds the amount of Product items
+     * @return The PackagingUnit if allocatable
+     * @throws AllocationException If not allocatable
      */
-    public AllocationException(String message) {
-        super(message);
-    }
+    PackagingUnit allocate(AllocationRule allocationRule) throws AllocationException;
 }
