@@ -19,13 +19,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.wms.inventory;
+package org.openwms.wms.inventory.allocation;
 
 import org.ameba.annotation.TxService;
 import org.openwms.wms.PackagingUnit;
-import org.openwms.wms.inventory.allocation.Allocation;
-import org.openwms.wms.inventory.allocation.AllocationException;
-import org.openwms.wms.inventory.allocation.AllocationRule;
 
 /**
  * A StockAllocationImpl.
@@ -45,7 +42,14 @@ class StockAllocationImpl implements Allocation {
 
         // TODO [openwms]: 29/04/16
         // em.createQuery(
-        // "select pu from PackagingUnit pu where pu.availabilityState == org.openwms.wms.domain.AvailablityState.AVAILABLE and pu.product = :c.product and !pu.loadUnit.locked and pu.loadUnit.transportUnit.state = org.openwms.common.domain.values.TransportUnitState.AVAILABLE and pu.loadUnit.transportUnit.actualLocation.outgoingActive and pu.loadUnit.transportUnit.actualLocation.plcState == 0 and pu.loadUnit.transportUnit.actualLocation.outgoingActive")
+        // "select pu from PackagingUnit pu where
+        // pu.availabilityState == org.openwms.wms.domain.AvailablityState.AVAILABLE and
+        // pu.product = :c.product and
+        // !pu.loadUnit.locked and
+        // pu.loadUnit.transportUnit.state = org.openwms.common.domain.values.TransportUnitState.AVAILABLE and
+        // pu.loadUnit.transportUnit.actualLocation.outgoingActive and
+        // pu.loadUnit.transportUnit.actualLocation.plcState == 0 and
+        // pu.loadUnit.transportUnit.actualLocation.outgoingActive")
         // .getResultList();
         return null;
     }

@@ -21,29 +21,39 @@
  */
 package org.openwms.wms.inventory.allocation;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.ameba.annotation.TxService;
+import org.ameba.exception.NotFoundException;
+import org.openwms.wms.inventory.Product;
+import org.openwms.wms.inventory.ProductRepository;
 
 import java.util.List;
 
+import static java.lang.String.format;
+
 /**
- * A AllocationController.
+ * A AllocationServiceImpl.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-@RestController
-class AllocationController {
+@TxService
+class AllocationServiceImpl implements AllocationService {
 
-    private final AllocationService allocationService;
+    private final ProductRepository productRepository;
+    private final Allocation allocation;
 
-    AllocationController(AllocationService allocationService) {
-        this.allocationService = allocationService;
+    AllocationServiceImpl(ProductRepository productRepository, Allocation allocation) {
+        this.productRepository = productRepository;
+        this.allocation = allocation;
     }
 
-    @GetMapping(value = "/allocation/transportunits", params = {"sku", "amount"})
-    public AllocatedTransportUnit[] allocate(@RequestParam("sku") String sku, @RequestParam("amount") int amount) {
-        List<AllocatedTransportUnit> units = allocationService.allocate(amount, sku);
-        return units.toArray(new AllocatedTransportUnit[0]);
+    @Override
+    public List<AllocatedTransportUnit> allocate(long amount, String sku) {
+        Product product = productRepository.findBySku(sku).orElseThrow(() -> new NotFoundException(format("No product with sku [%s] found", sku)));
+        try {
+            allocation.allocate(new AllocationRule(amount, product));
+        } catch (AllocationException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

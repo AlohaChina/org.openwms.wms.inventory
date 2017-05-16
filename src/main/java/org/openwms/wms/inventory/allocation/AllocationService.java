@@ -5,7 +5,7 @@
  * This file is part of openwms.org.
  *
  * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as
+ * it under the terms of the GNU General Public License as 
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -19,24 +19,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.wms.inventory;
+package org.openwms.wms.inventory.allocation;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
+import java.util.List;
 
 /**
- * A ProductRepository.
- * 
+ * A AllocationService.
+ *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public interface ProductRepository extends JpaRepository<Product, Long>{
+interface AllocationService {
 
-    /**
-     * Find a {@link Product} by its unique SKU.
-     * 
-     * @param sku
-     *            The SKU to search for
-     */
-    Optional<Product> findBySku(String sku);
+    List<AllocatedTransportUnit> allocate(long amount, String sku);
 }
