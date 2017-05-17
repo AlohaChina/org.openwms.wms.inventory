@@ -30,4 +30,7 @@ class AllocatedTransportUnit {
 
     private String transportUnitId;
     private String loadUnitPosition;
+    private String sku;
+    private long amount;
+    private String uom;
 }

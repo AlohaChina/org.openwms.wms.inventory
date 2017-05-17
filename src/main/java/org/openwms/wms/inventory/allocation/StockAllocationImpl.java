@@ -28,8 +28,6 @@ import org.openwms.wms.PackagingUnit;
  * A StockAllocationImpl.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version 0.1
- * @since 0.1
  */
 @TxService
 class StockAllocationImpl implements Allocation {
@@ -41,6 +39,13 @@ class StockAllocationImpl implements Allocation {
     public PackagingUnit allocate(AllocationRule allocationRule) throws AllocationException {
 
         // TODO [openwms]: 29/04/16
+
+        /*
+        Find available PackagingUnits for the given product that are not yet allocated.
+
+        The aisle must not be lockec and active for outgoing transports.
+         */
+
         // em.createQuery(
         // "select pu from PackagingUnit pu where
         // pu.availabilityState == org.openwms.wms.domain.AvailablityState.AVAILABLE and

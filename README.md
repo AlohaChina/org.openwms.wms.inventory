@@ -3,8 +3,11 @@ OpenWMS.org WMS: Inventory
 
 The main responsibilities of the Inventory service are as follows:
   
-  - **Allocation**. The Allocation strategy chooses the best available **PackagingUnit** of a 
-   **Product** according to the demanded amount.
+  - **Allocation**. The Allocation strategy chooses available **PackagingUnit** of a 
+   **Product** according to the demanded amount. Usually this is used to fulfill order
+   positions. An order position may be divided into multiple splits. Each split corresponds
+   to an allocation unit and triggers a transport order to actually get the items out of
+   stock.
 
 # Resources
 

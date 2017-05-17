@@ -48,7 +48,7 @@ class AllocationServiceImpl implements AllocationService {
 
     @Override
     public List<AllocatedTransportUnit> allocate(long amount, String sku) {
-        Product product = productRepository.findBySku(sku).orElseThrow(() -> new NotFoundException(format("No product with sku [%s] found", sku)));
+        Product product = productRepository.findBySku(sku).orElseThrow(() -> new NotFoundException(format("Product with sku [%s] does not exist", sku)));
         try {
             allocation.allocate(new AllocationRule(amount, product));
         } catch (AllocationException e) {
